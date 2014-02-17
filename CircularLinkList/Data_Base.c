@@ -141,9 +141,9 @@ size_t LocateElem(PREAR pRear, const Elem v)
 
 
 
-STATUS InsertList(PREAR pRear, const size_t pos, const Elem v)
+STATUS InsertList(PREAR *ppRear, const size_t pos, const Elem v)
 {
-	PNODE pHead = pRear->pNext;
+	PNODE pHead = (*ppRear)->pNext;
 	PNODE p = pHead;
 	PNODE pNew = NULL;
 	size_t cur = 1;
@@ -152,11 +152,36 @@ STATUS InsertList(PREAR pRear, const size_t pos, const Elem v)
 	{
 		return FAILE;
 	}
+	
+	if (TRUE == ListEmpty(*ppRear))
+	{
+		if (pos == 1)
+		{
+			pNew = (PNODE)malloc(sizeof(NODE));
+			if (!pNew)
+			{
+				printf("动态生成新结点失败!\n");
+				exit(ERROR);
+			}
+			
+			pNew->data = v;
+			
+			(*ppRear)->pNext = pNew;
+			pNew->pNext = *ppRear;
+			*ppRear = pNew;
+			
+			return OK;
+		}
+		else
+		{
+			return FAILE;
+		}
+	}
 
 	/*
 	**寻找插入点.
 	*/
-	while (p != pHead)
+	while (p != pHead)	
 	{
 		if (pos == cur)	/*找到插入点.*/
 		{
@@ -174,13 +199,22 @@ STATUS InsertList(PREAR pRear, const size_t pos, const Elem v)
 			
 			pNew->pNext = p->pNext;
 			p->pNext = pNew;
+
+			/*
+			**若在最末尾插入,需要移动尾指针.
+			*/
+			if (pNew->pNext == pHead)
+			{
+				(*ppRear) = pNew;
+			}
 			
 			return OK;
 		}
 		p = p->pNext;
 		++cur;
 	}
-
+	
+	
 	/*
 	**未找到插入点.
 	*/
@@ -227,12 +261,12 @@ STATUS DeleteList(PREAR pRear, const size_t pos, Elem *e)
 
 void TraveList(PREAR pRear)
 {
-	PNODE pHead = pRear->pNext;
+	PNODE pHead = pRear->pNext;	/*指向头结点(若有). */
 	PNODE p = pHead->pNext;
 	
 	while (p != pHead)
 	{
-		printf("%d", p->data);
+		printf("%d", p->data);	
 	}
 
 	return;
