@@ -266,7 +266,8 @@ void TraveList(PREAR pRear)
 	
 	while (p != pHead)
 	{
-		printf("%d", p->data);	
+		printf("%d", p->data);
+		p = p->pNext;
 	}
 
 	return;
