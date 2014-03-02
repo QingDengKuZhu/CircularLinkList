@@ -21,7 +21,7 @@ int main(void)
 	while (i < 10)
 	{
 
-		InsertList(pRear, i, rand()%20);
+		InsertList(&pRear, i, i);
 		++i;
 	}
 
@@ -45,7 +45,7 @@ int main(void)
 		case 1:			/*插入数据*/
 			pos = InputPos("插入位置为:");
 			v = InputValue("结点元素为:");
-			if (FAILE == InsertList(pRear, pos, v))
+			if (FAILE == InsertList(&pRear, pos, v))
 			{
 				printf("插入失败!\n");
 			}
@@ -64,7 +64,7 @@ int main(void)
 			break;
 		case 3:			/*删除结点*/
 			pos = InputPos("删除的结点位置是:");
-			if (OK == DeleteList(pRear, pos, &e))
+			if (OK == DeleteList(&pRear, pos, &e))
 			{
 				printf("删除成功,删除的元素是%d!\n", e);
 			}
@@ -130,72 +130,8 @@ int main(void)
 			getchar();	
 			break;
 		
-//		case 10:		/*合并链表*/
-//			{
-//				SQLIST La;
-//				size_t i = 0;
-//				InitList(&La);
-//				srand((int)time(NULL));
-//				for (i=1; i<=10; ++i)
-//				{
-//					InsertList(&La, i, rand()%15);
-//				}
-//				printf("待求并集的表为: ");
-//				TraveList(&La);
-//				UnionList(&pRear, &La);
-//
-//				DestroyList(&La);/*避免内存泄漏*/
-//				printf("操作完成!\n");
-//
-//				getchar();
-//				break;
-//			}
-//
-//		case 11:		/*求前驱结点*/
-//			v = InputValue("寻找哪个元素的前驱结点: ");
-//			
-//			if (OK == PriorELem(&pRear, v , &e))
-//			{
-//				printf("前驱结点元素为: %d", e);
-//			}
-//			else
-//			{
-//				printf("未找到!\n");
-//			}
-//
-//			getchar();
-//			break;
-//			
-//		case 12:	/*求后去结点*/
-//			v = InputValue("寻找哪个元素的后驱结点: ");
-//			
-//			if (OK == NextELem(&pRear, v , &e))
-//			{
-//				printf("后驱结点元素为: %d", e);
-//			}
-//			else
-//			{
-//				printf("未找到!\n");
-//			}
-//			
-//			getchar();
-//			break;
-//			
-/*		case 10:	/*求中间结点*/
-			{
-				PNODE pm = FindMidNode(pRear);
-				if(!pm)
-				{
-					printf("不存在中间结点!\n");
-				}
-				else
-				{
-					printf("中间结点为:%d.", pm->data);
-				}
 
-				getchar();
-			}
-*/		default:
+		default:
 			printf("请重新选择!\n");
 			
 			getchar();
